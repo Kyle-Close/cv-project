@@ -1,0 +1,23 @@
+button {
+  /* Remove default button styling */
+  border: none;
+  padding: 0;
+  background: none;
+  font-family: "Poppins";
+  font-size: 20px;
+}
+
+.slider {
+  /* Default (non selected) style */
+  height: 50px;
+  width: 200px;
+  background-color: #d9d9d9;
+}
+
+.slider.selected {
+  /* Style when button is selected */
+  font-weight: 500;
+  background-color: #578d4e;
+  color: white;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
