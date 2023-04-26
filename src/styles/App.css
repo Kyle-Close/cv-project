@@ -1,0 +1,10 @@
+.container {
+  max-width: 700px;
+  height: 100%;
+  flex: 1;
+  display: grid;
+  grid-template-rows: 200px 100px 1fr;
+  grid-template-columns: 700px;
+  justify-content: center;
+  margin-bottom: 100px;
+}

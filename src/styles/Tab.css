@@ -1,0 +1,21 @@
+.tabs-container {
+  justify-self: center;
+  align-self: end;
+  display: flex;
+  gap: 10px;
+}
+
+.tab {
+  background-color: #727272;
+  width: 150px;
+  height: 40px;
+  color: white;
+  font-size: 17px;
+  border-radius: 8px;
+}
+
+.tab.selected {
+  background-color: #578d4e;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+  font-weight: 500;
+}

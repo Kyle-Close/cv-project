@@ -1,26 +1,16 @@
 import React from "react";
 import "../styles/Slider.css";
 
-export default function Slider() {
-  const [isEditActive, setIsEditActive] = React.useState(true);
-
-  function handleClick(e) {
-    if (e.target.classList.contains("selected")) {
-      return;
-    } else {
-      setIsEditActive((prevIsEditActive) => !prevIsEditActive);
-    }
-  }
-
-  const editClassNames = isEditActive ? "slider selected" : "slider";
-  const sliderClassNames = isEditActive ? "slider" : "slider selected";
+export default function Slider(props) {
+  const editClassNames = props.isEditActive ? "slider selected" : "slider";
+  const sliderClassNames = props.isEditActive ? "slider" : "slider selected";
 
   return (
-    <div>
-      <button onClick={handleClick} className={editClassNames}>
+    <div className="slider-container">
+      <button onClick={props.handleClick} className={editClassNames}>
         EDIT
       </button>
-      <button onClick={handleClick} className={sliderClassNames}>
+      <button onClick={props.handleClick} className={sliderClassNames}>
         PREVIEW
       </button>
     </div>

@@ -1,0 +1,8 @@
+.main-title {
+  color: white;
+  font-size: 40px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: end;
+}
