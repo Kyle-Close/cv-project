@@ -2,40 +2,75 @@ import React from "react";
 
 import "../styles/PersonalForm.css";
 
-export default function PersonalForm() {
+export default function PersonalForm(props) {
   return (
     <form className="form-personal">
       <div className="input-section">
         <label>First Name</label>
-        <input></input>
+        <input
+          id="firstName"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.firstName}
+        ></input>
       </div>
       <div className="input-section">
         <label>Last Name</label>
-        <input></input>
+        <input
+          id="lastName"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.lastName}
+        ></input>
       </div>
       <div className="input-section">
         <label>City</label>
-        <input></input>
+        <input
+          id="city"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.city}
+        ></input>
       </div>
       <div className="input-section">
         <label>State/Province</label>
-        <input></input>
+        <input
+          id="state"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.state}
+        ></input>
       </div>
       <div className="input-section">
         <label>Country</label>
-        <input></input>
+        <input
+          id="country"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.country}
+        ></input>
       </div>
       <div className="input-section">
         <label>Email</label>
-        <input></input>
+        <input
+          id="email"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.email}
+        ></input>
       </div>
       <div className="input-section">
         <label>Phone Number</label>
-        <input></input>
+        <input
+          id="phone"
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.phone}
+        ></input>
       </div>
       <div className="input-section">
         <label>Personal Description</label>
-        <textarea rows="7" cols="33" style={{ resize: "none" }}></textarea>
+        <textarea
+          id="personalDescription"
+          rows="7"
+          cols="33"
+          style={{ resize: "none" }}
+          onChange={(e) => props.handleChange(e.target)}
+          value={props.formsData.personalDescription}
+        ></textarea>
       </div>
     </form>
   );

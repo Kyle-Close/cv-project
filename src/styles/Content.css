@@ -1,7 +1,7 @@
 .content-container {
   background-color: #cccccc;
   display: grid;
-  grid-template-rows: 100px 1fr;
+  grid-template-rows: 100px 1fr 150px;
   padding: 0 120px;
   gap: 40px;
   font-size: 18px;

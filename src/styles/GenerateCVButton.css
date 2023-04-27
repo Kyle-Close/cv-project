@@ -1,0 +1,27 @@
+.generate-cv-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.generate-cv-button {
+  color: white;
+  background-color: #578d4e;
+  width: 200px;
+  height: 50px;
+  border-radius: 8px;
+}
+
+.generate-cv-button:hover {
+  background-color: #385a32;
+}
+
+.generate-cv-button:active {
+  transform: translateY(2px); /* Move the button down */
+}
+
+.generate-cv-button:disabled {
+  background-color: gray;
+  color: white;
+  cursor: not-allowed;
+}
