@@ -12,14 +12,25 @@ export default function Content(props) {
   const [isGenerateCV, setIsGenerateCV] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("personal");
   const [formsData, setFormsData] = React.useState({
-    firstName: "",
-    lastName: "",
-    city: "",
-    state: "",
-    country: "",
-    email: "",
-    phone: "",
-    personalDescription: "",
+    personal: {
+      firstName: "",
+      lastName: "",
+      city: "",
+      state: "",
+      country: "",
+      email: "",
+      phone: "",
+      description: "",
+    },
+    experience: [
+      {
+        companyName: "",
+        role: "",
+        description: "",
+        from: "",
+        to: "",
+      },
+    ],
   });
 
   React.useEffect(() => {
@@ -32,7 +43,14 @@ export default function Content(props) {
 
   function isFormsValid(obj) {
     for (const key in obj) {
-      if (typeof obj[key] !== "string" || obj[key].trim() === "") {
+      const value = obj[key];
+      if (typeof value === "object" && value !== null) {
+        // If the value is an object or array, recursively call isFormsValid
+        if (!isFormsValid(value)) {
+          return false;
+        }
+      } else if (typeof value !== "string" || value.trim() === "") {
+        // If the value is not a string or is an empty string, return false
         return false;
       }
     }
@@ -47,12 +65,37 @@ export default function Content(props) {
     const value = target.value;
     const property = target.id;
 
-    setFormsData((prevFormsData) => {
-      return {
-        ...prevFormsData,
-        [property]: value,
-      };
-    });
+    const formClassName = target.parentElement.parentElement.classList[1];
+    let form;
+
+    if (formClassName === "form-personal") form = "personal";
+    else if (formClassName === "form-experience") form = "experience";
+    else if (formClassName === "form-education") form = "education";
+
+    console.log(formsData.experience);
+
+    if (form === "personal") {
+      setFormsData((prevFormsData) => {
+        return {
+          ...prevFormsData,
+          personal: {
+            ...prevFormsData.personal,
+            [property]: value,
+          },
+        };
+      });
+    } else {
+      setFormsData((prevFormsData) => {
+        return {
+          ...prevFormsData,
+          [form]: [
+            ...prevFormsData[form].map((experience, index) =>
+              index === 0 ? { ...experience, [property]: value } : experience
+            ),
+          ],
+        };
+      });
+    }
   };
 
   return (
@@ -66,7 +109,12 @@ export default function Content(props) {
               handleChange={handleFormChange}
             />
           )}
-          {activeTab === "experience" && <ExperienceForm />}
+          {activeTab === "experience" && (
+            <ExperienceForm
+              formsData={formsData}
+              handleChange={handleFormChange}
+            />
+          )}
           {activeTab === "education" && <EducationForm />}
           <GenerateCVButton isGenerateCV={isGenerateCV} />
         </>

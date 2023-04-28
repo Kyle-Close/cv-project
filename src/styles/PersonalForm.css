@@ -10,7 +10,7 @@ textarea {
   padding-left: 4px;
 }
 
-.form-personal {
+.form {
   display: flex;
   flex-direction: column;
   gap: 10px;
