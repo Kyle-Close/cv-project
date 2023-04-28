@@ -2,9 +2,32 @@ import React from "react";
 import "../styles/ExperienceForm.css";
 
 export default function ExperienceForm(props) {
-  /*   function isValidForm() {
-    const form = 
-  } */
+  const [isValid, setIsValid] = React.useState(false);
+
+  React.useEffect(
+    function () {
+      if (isValidForm()) {
+        setIsValid(true);
+        console.log("setting to true");
+      } else {
+        setIsValid(false);
+        console.log("setting to false");
+      }
+    },
+    [props.formsData.experience]
+  );
+
+  function isValidForm() {
+    let isValid = true;
+    const expObj =
+      props.formsData.experience[props.formsData.experience.length - 1];
+
+    for (const key in expObj) {
+      if (expObj[key] == null || expObj[key] === "") isValid = false;
+    }
+
+    return isValid;
+  }
 
   return (
     <form className="form form-experience">
@@ -62,7 +85,13 @@ export default function ExperienceForm(props) {
           }
         ></input>
       </div>
-      <button className="add-job-button">Add Job</button>
+      <button
+        onClick={props.handleClick}
+        className={"add-job-button"}
+        disabled={!isValid}
+      >
+        Add Job
+      </button>
     </form>
   );
 }

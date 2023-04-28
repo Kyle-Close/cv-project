@@ -98,6 +98,52 @@ export default function Content(props) {
     }
   };
 
+  React.useEffect(() => {
+    logFormData(formsData);
+  }, [formsData]);
+
+  function logFormData(formData) {
+    const mains = ["Personal", "Experience", "Education"];
+    const personalArr = [
+      "firstName",
+      "lastName",
+      "city",
+      "state",
+      "country",
+      "email",
+      "phone",
+      "description",
+    ];
+    const experienceArr = ["companyName", "role", "description", "to", "from"];
+    const educationArr = ["schoolName", "program", "city", "from", "to"];
+
+    let output = "";
+
+    mains.forEach((tab) => {
+      output += tab + "\n";
+      if (tab === "Personal") {
+        personalArr.forEach((prop) => {
+          output += `   ${prop}: ${formData.personal[prop]}\n`;
+        });
+      } else if (tab === "Experience") {
+        for (let i = 0; i < formData.experience.length; i++) {
+          output += `   Experience[${i}]\n`;
+          for (let j = 0; j < experienceArr.length; j++) {
+            output += `      ${experienceArr[j]}: ${
+              formData.experience[i][experienceArr[j]]
+            }\n`;
+          }
+        }
+      } /* else if (tab === "Education") {
+        educationArr.forEach((prop) => {
+          output += `   ${prop}: ${formData.education[prop]}`;
+        });
+      } */
+    });
+
+    console.log(output);
+  }
+
   return (
     <div className="content-container">
       {props.isEditActive && (
