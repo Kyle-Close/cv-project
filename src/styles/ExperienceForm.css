@@ -18,3 +18,36 @@
   color: white;
   cursor: not-allowed;
 }
+
+.current-jobs-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.current-jobs-section > h4 {
+  text-align: center;
+  font-weight: 500;
+  margin-bottom: 0;
+}
+
+.current-jobs-section > ol li {
+  padding: 0;
+  margin: 0;
+  font-size: 16px;
+  color: rgb(0, 0, 0);
+  font-weight: 300;
+}
+
+.current-jobs-section > ol > li {
+  padding-left: 15px;
+}
+
+.current-jobs-section ol > li::marker {
+  color: black;
+  font-weight: 500;
+}
+
+.form-experience #description {
+  resize: none;
+  height: 5rem;
+}

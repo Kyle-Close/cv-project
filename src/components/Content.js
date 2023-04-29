@@ -9,6 +9,7 @@ import EducationForm from "../components/EducationForm";
 import GenerateCVButton from "../components/GenerateCVButton";
 
 export default function Content(props) {
+  const [currentJobs, setCurrentJobs] = React.useState([]);
   const [isGenerateCV, setIsGenerateCV] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("personal");
   const [formsData, setFormsData] = React.useState({
@@ -34,27 +35,23 @@ export default function Content(props) {
   });
 
   React.useEffect(() => {
-    if (isFormsValid(formsData)) {
+    if (isFormsValid()) {
       setIsGenerateCV(true);
     } else {
       setIsGenerateCV(false);
     }
   }, [formsData]);
 
-  function isFormsValid(obj) {
-    for (const key in obj) {
-      const value = obj[key];
-      if (typeof value === "object" && value !== null) {
-        // If the value is an object or array, recursively call isFormsValid
-        if (!isFormsValid(value)) {
-          return false;
-        }
-      } else if (typeof value !== "string" || value.trim() === "") {
-        // If the value is not a string or is an empty string, return false
-        return false;
-      }
+  function isFormsValid() {
+    const formObj = formsData;
+    let isValid = true;
+    // Validate the personal form is filled out
+    for (const key in formObj.personal) {
+      if (formObj.personal[key] === "") isValid = false;
     }
-    return true;
+    // Validate at least 1 experience has been entered
+    if (currentJobs.length < 1) isValid = false;
+    return isValid;
   }
 
   const handleTabClick = (id) => {
@@ -72,8 +69,6 @@ export default function Content(props) {
     else if (formClassName === "form-experience") form = "experience";
     else if (formClassName === "form-education") form = "education";
 
-    console.log(formsData.experience);
-
     if (form === "personal") {
       setFormsData((prevFormsData) => {
         return {
@@ -90,7 +85,9 @@ export default function Content(props) {
           ...prevFormsData,
           [form]: [
             ...prevFormsData[form].map((experience, index) =>
-              index === 0 ? { ...experience, [property]: value } : experience
+              index === prevFormsData[form].length - 1
+                ? { ...experience, [property]: value }
+                : experience
             ),
           ],
         };
@@ -140,8 +137,39 @@ export default function Content(props) {
         });
       } */
     });
+  }
 
-    console.log(output);
+  function handleAddExperience(e) {
+    e.preventDefault();
+    const blankExperienceObj = {
+      companyName: "",
+      role: "",
+      description: "",
+      from: "",
+      to: "",
+    };
+
+    setFormsData((prevFormsData) => {
+      return {
+        ...prevFormsData,
+        experience: [...prevFormsData.experience, blankExperienceObj],
+      };
+    });
+
+    setCurrentJobs(() => {
+      const result = [];
+      for (let i = 0; i < formsData.experience.length; i++) {
+        const { companyName, role, from, to } = formsData.experience[i];
+        const obj = {
+          companyName: companyName,
+          role: role,
+          from: from,
+          to: to,
+        };
+        result.push(obj);
+      }
+      return result;
+    });
   }
 
   return (
@@ -159,6 +187,8 @@ export default function Content(props) {
             <ExperienceForm
               formsData={formsData}
               handleChange={handleFormChange}
+              handleClick={handleAddExperience}
+              currentJobs={currentJobs}
             />
           )}
           {activeTab === "education" && <EducationForm />}
