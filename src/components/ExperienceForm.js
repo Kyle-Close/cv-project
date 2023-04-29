@@ -57,7 +57,7 @@ export default function ExperienceForm(props) {
         <div className="input-section">
           <label>Role</label>
           <input
-            placeholder="Saleman"
+            placeholder="Manager"
             id="role"
             onChange={(e) => props.handleChange(e.target)}
             value={

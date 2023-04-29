@@ -10,6 +10,7 @@ import GenerateCVButton from "../components/GenerateCVButton";
 
 export default function Content(props) {
   const [currentJobs, setCurrentJobs] = React.useState([]);
+  const [currentSchools, setCurrentSchools] = React.useState([]);
   const [isGenerateCV, setIsGenerateCV] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("personal");
   const [formsData, setFormsData] = React.useState({
@@ -28,6 +29,15 @@ export default function Content(props) {
         companyName: "",
         role: "",
         description: "",
+        from: "",
+        to: "",
+      },
+    ],
+    education: [
+      {
+        schoolName: "",
+        program: "",
+        city: "",
         from: "",
         to: "",
       },
@@ -51,6 +61,10 @@ export default function Content(props) {
     }
     // Validate at least 1 experience has been entered
     if (currentJobs.length < 1) isValid = false;
+
+    // Validate at least 1 school has been entered
+    if (currentSchools.length < 1) isValid = false;
+
     return isValid;
   }
 
@@ -79,7 +93,7 @@ export default function Content(props) {
           },
         };
       });
-    } else {
+    } else if (form === "experience") {
       setFormsData((prevFormsData) => {
         return {
           ...prevFormsData,
@@ -88,6 +102,19 @@ export default function Content(props) {
               index === prevFormsData[form].length - 1
                 ? { ...experience, [property]: value }
                 : experience
+            ),
+          ],
+        };
+      });
+    } else if (form === "education") {
+      setFormsData((prevFormsData) => {
+        return {
+          ...prevFormsData,
+          [form]: [
+            ...prevFormsData[form].map((education, index) =>
+              index === prevFormsData[form].length - 1
+                ? { ...education, [property]: value }
+                : education
             ),
           ],
         };
@@ -131,12 +158,18 @@ export default function Content(props) {
             }\n`;
           }
         }
-      } /* else if (tab === "Education") {
-        educationArr.forEach((prop) => {
-          output += `   ${prop}: ${formData.education[prop]}`;
-        });
-      } */
+      } else if (tab === "Education") {
+        for (let i = 0; i < formData.education.length; i++) {
+          output += `   Education[${i}]\n`;
+          for (let j = 0; j < educationArr.length; j++) {
+            output += `      ${educationArr[j]}: ${
+              formData.education[i][educationArr[j]]
+            }\n`;
+          }
+        }
+      }
     });
+    console.log(output);
   }
 
   function handleAddExperience(e) {
@@ -172,6 +205,39 @@ export default function Content(props) {
     });
   }
 
+  function handleAddEducation(e) {
+    e.preventDefault();
+    const blankEducationObj = {
+      schoolName: "",
+      program: "",
+      city: "",
+      from: "",
+      to: "",
+    };
+
+    setFormsData((prevFormsData) => {
+      return {
+        ...prevFormsData,
+        education: [...prevFormsData.education, blankEducationObj],
+      };
+    });
+
+    setCurrentSchools(() => {
+      const result = [];
+      for (let i = 0; i < formsData.education.length; i++) {
+        const { schoolName, program, from, to } = formsData.education[i];
+        const obj = {
+          schoolName: schoolName,
+          program: program,
+          from: from,
+          to: to,
+        };
+        result.push(obj);
+      }
+      return result;
+    });
+  }
+
   return (
     <div className="content-container">
       {props.isEditActive && (
@@ -191,7 +257,14 @@ export default function Content(props) {
               currentJobs={currentJobs}
             />
           )}
-          {activeTab === "education" && <EducationForm />}
+          {activeTab === "education" && (
+            <EducationForm
+              formsData={formsData}
+              handleChange={handleFormChange}
+              handleClick={handleAddEducation}
+              currentSchools={currentSchools}
+            />
+          )}
           <GenerateCVButton isGenerateCV={isGenerateCV} />
         </>
       )}
