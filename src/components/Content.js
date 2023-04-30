@@ -306,12 +306,6 @@ export default function Content(props) {
               updateIsEditActive={props.updateIsEditActive}
               isGenerateCV={isGenerateCV}
             />
-            <button
-              onClick={populateForms}
-              style={{ backgroundColor: "white" }}
-            >
-              Populate Forms
-            </button>
           </>
         </div>
       )}
