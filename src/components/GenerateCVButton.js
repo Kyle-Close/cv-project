@@ -6,7 +6,7 @@ export default function GenerateCVButton(props) {
   return (
     <div className="generate-cv-container">
       <button
-        onClick={() => console.log("test")}
+        onClick={() => props.updateIsEditActive(false)}
         className="generate-cv-button"
         disabled={!props.isGenerateCV}
       >

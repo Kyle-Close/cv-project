@@ -1,0 +1,11 @@
+.preview-container {
+  background-color: #e0e0e0;
+  display: grid;
+  grid-template-rows: 150px 1fr 5fr;
+  padding: 20px 50px;
+}
+
+.preview-container > .header {
+  display: flex;
+  justify-content: space-between;
+}

@@ -18,11 +18,18 @@ function App() {
     }
   }
 
+  const updateIsEditActive = (newValue) => {
+    setIsEditActive(newValue);
+  };
+
   return (
     <div className="container">
       <Title />
       <Slider isEditActive={isEditActive} handleClick={handleSliderClick} />
-      <Content isEditActive={isEditActive} />
+      <Content
+        isEditActive={isEditActive}
+        updateIsEditActive={updateIsEditActive}
+      />
     </div>
   );
 }

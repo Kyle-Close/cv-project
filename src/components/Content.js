@@ -7,6 +7,7 @@ import PersonalForm from "../components/PersonalForm";
 import ExperienceForm from "../components/ExperienceForm";
 import EducationForm from "../components/EducationForm";
 import GenerateCVButton from "../components/GenerateCVButton";
+import CVPreview from "../components/CVPreview";
 
 export default function Content(props) {
   const [currentJobs, setCurrentJobs] = React.useState([]);
@@ -238,36 +239,83 @@ export default function Content(props) {
     });
   }
 
+  function populateForms() {
+    const data = {
+      personal: {
+        firstName: "Kyle",
+        lastName: "Close",
+        city: "Waterdown",
+        state: "ON",
+        country: "Canada",
+        email: "close0568@gmail.com",
+        phone: "(289)-983-0759",
+        description: "I like to code.",
+      },
+      experience: [
+        {
+          companyName: "Conexiom",
+          role: "Developer",
+          description: "I do the codey stuff",
+          from: "2022",
+          to: "Current",
+        },
+      ],
+      education: [
+        {
+          schoolName: "Conestoga",
+          program: "Computer Engineering",
+          city: "Cambridge",
+          from: "2019",
+          to: "2022",
+        },
+      ],
+    };
+
+    setFormsData(data);
+  }
+
   return (
-    <div className="content-container">
+    <>
       {props.isEditActive && (
-        <>
-          <Tabs handleClick={handleTabClick} activeTab={activeTab} />
-          {activeTab === "personal" && (
-            <PersonalForm
-              formsData={formsData}
-              handleChange={handleFormChange}
+        <div className="content-container">
+          <>
+            <Tabs handleClick={handleTabClick} activeTab={activeTab} />
+            {activeTab === "personal" && (
+              <PersonalForm
+                formsData={formsData}
+                handleChange={handleFormChange}
+              />
+            )}
+            {activeTab === "experience" && (
+              <ExperienceForm
+                formsData={formsData}
+                handleChange={handleFormChange}
+                handleClick={handleAddExperience}
+                currentJobs={currentJobs}
+              />
+            )}
+            {activeTab === "education" && (
+              <EducationForm
+                formsData={formsData}
+                handleChange={handleFormChange}
+                handleClick={handleAddEducation}
+                currentSchools={currentSchools}
+              />
+            )}
+            <GenerateCVButton
+              updateIsEditActive={props.updateIsEditActive}
+              isGenerateCV={isGenerateCV}
             />
-          )}
-          {activeTab === "experience" && (
-            <ExperienceForm
-              formsData={formsData}
-              handleChange={handleFormChange}
-              handleClick={handleAddExperience}
-              currentJobs={currentJobs}
-            />
-          )}
-          {activeTab === "education" && (
-            <EducationForm
-              formsData={formsData}
-              handleChange={handleFormChange}
-              handleClick={handleAddEducation}
-              currentSchools={currentSchools}
-            />
-          )}
-          <GenerateCVButton isGenerateCV={isGenerateCV} />
-        </>
+            <button
+              onClick={populateForms}
+              style={{ backgroundColor: "white" }}
+            >
+              Populate Forms
+            </button>
+          </>
+        </div>
       )}
-    </div>
+      {!props.isEditActive && <CVPreview formsData={formsData} />}
+    </>
   );
 }
